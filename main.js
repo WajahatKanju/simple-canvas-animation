@@ -4,7 +4,7 @@ const canvas = document.getElementsByTagName("canvas")[0];
 const context = canvas.getContext("2d");
 
 function draw_pacman(ctx, radius, mouth) {
-  let angle = 0.2 * Math.PI * mouth;
+  let angle = 0.25 * Math.PI * mouth;
   ctx.save();
   ctx.fillStyle = "yellow";
   ctx.strokeStyle = "black";
@@ -46,7 +46,7 @@ function update() {
     dy *= -0.6;
     dx *= 0.95;
   }
-  mouth = Math.abs(Math.sin((6 * Math.PI * x) / context.canvas.width));
+  mouth = Math.abs(Math.sin((6 * Math.PI * x ) / context.canvas.width));
 }
 function draw(context) {
   grid(canvas, context);
