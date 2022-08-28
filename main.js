@@ -1,19 +1,35 @@
-import { grid } from './drawing.js';
+import { grid } from "./drawing.js";
 
-const canvas = document.getElementsByTagName('canvas')[0];
-const context = canvas.getContext('2d');
+const canvas = document.getElementsByTagName("canvas")[0];
+const context = canvas.getContext("2d");
+
+function draw_pacman(ctx, radius, mouth) {
+  let angle = 0.2 * Math.PI * mouth;
+  ctx.save();
+  ctx.fillStyle = "yellow";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, angle, -angle);
+  ctx.lineTo(0, 0);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+}
 
 context.strokeStyle = "white";
 context.lineWidth = 1.5;
-
-let x =  40, y = context.canvas.height / 2;
+let radius = 40;
+let x = radius,
+  y = context.canvas.height / 5;
 let dx = 1;
 let dy = 0;
 let gravity = 0.1;
+let mouth = 0;
 
 function frame() {
-  context.clearRect(0, 0, context.canvas.width, context.
-    canvas.height);
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
   draw(context);
   update();
 }
@@ -21,25 +37,27 @@ function frame() {
 function update() {
   x += dx;
   y += dy;
-  if(x + dx > canvas.width - 40 || x + dx < 40){
+  dy += gravity;
+  if (x + dx > canvas.width - radius || x + dx < radius) {
     dx = -dx;
   }
 
-  if(y + dy > context.canvas.height - 40){
-    dy *= -1;
-    console.log(dy);
-  }else{
-    dy += gravity;
-
+  if (y + dy > context.canvas.height - radius) {
+    dy *= -0.6;
+    dx *= 0.95;
   }
-
+  mouth = Math.abs(Math.sin((6 * Math.PI * x) / context.canvas.width));
 }
 function draw(context) {
   grid(canvas, context);
-  context.beginPath();
-  context.arc(x, y, 40, 0, 2 * Math.PI);
-  context.fill();
-  context.stroke();
+  // context.beginPath();
+  // context.arc(x, y, radius, 0, 2 * Math.PI);
+  // context.fill();
+  // context.stroke();
+  context.save();
+  context.translate(x, y);
+  draw_pacman(context, radius, mouth);
+  context.restore();
 }
 
-setInterval(frame, 1000/60000);
+setInterval(frame, 1000 / 60000);
