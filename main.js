@@ -17,7 +17,9 @@ function frame() {
 
 function update() {
   x += dx;
-  
+  if(x + dx > canvas.width - 40 || x + dx < 40){
+    dx = -dx;
+  }
 }
 function draw(context) {
   grid(canvas, context);
