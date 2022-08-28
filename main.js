@@ -8,6 +8,9 @@ context.lineWidth = 1.5;
 
 let x =  40, y = context.canvas.height / 2;
 let dx = 1;
+let dy = 0;
+let gravity = 0.1;
+
 function frame() {
   context.clearRect(0, 0, context.canvas.width, context.
     canvas.height);
@@ -17,9 +20,19 @@ function frame() {
 
 function update() {
   x += dx;
+  y += dy;
   if(x + dx > canvas.width - 40 || x + dx < 40){
     dx = -dx;
   }
+
+  if(y + dy > context.canvas.height - 40){
+    dy *= -1;
+    console.log(dy);
+  }else{
+    dy += gravity;
+
+  }
+
 }
 function draw(context) {
   grid(canvas, context);
@@ -29,4 +42,4 @@ function draw(context) {
   context.stroke();
 }
 
-setInterval(frame, 1000/60);
+setInterval(frame, 1000/60000);
